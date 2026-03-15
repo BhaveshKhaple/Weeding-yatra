@@ -57,7 +57,7 @@ A foreign or regional visitor who:
 
 ## Technical Stack
 
-### Frontend
+### Frontend — Core
 | Concern | Choice | Rationale |
 |---|---|---|
 | Framework | React 18 | Component model ideal for dual-role dashboard + public directory |
@@ -65,6 +65,16 @@ A foreign or regional visitor who:
 | Styling | Tailwind CSS v3 | Utility-first, mobile-first responsive, rapid iteration |
 | Language | TypeScript | Type safety with Supabase client; catches role/permission bugs early |
 | Routing | React Router v6 | `createBrowserRouter`, role-based nested routes |
+
+### Frontend — Animation & Immersion (MANDATORY)
+| Library | Package | Role |
+|---|---|---|
+| **Framer Motion** | `framer-motion` | Page transitions, micro-animations, gesture-based interactions (drag, hover, tap) across all components |
+| **GSAP + ScrollTrigger** | `gsap` | Complex timeline-driven, scroll-bound animations for the homepage and listing detail pages (scrollytelling) |
+| **Lenis** | `@studio-freight/lenis` | Buttery smooth scroll inertia — replaces native browser scroll on immersive pages; integrates with GSAP ScrollTrigger |
+| **React Three Fiber** | `@react-three/fiber` + `@react-three/drei` | Interactive 3D scene rendering in React (WebGL via Three.js) for hero sections and cultural motif centrepieces |
+| **Spline** | `@splinetool/react-spline` | Load pre-built 3D interactive .splinecode assets (e.g., animated mandala, wedding diya) from Spline.design |
+| **Lottie React** | `lottie-react` | Lightweight Lottie/JSON animated SVG folk art (rangoli, mehendi patterns, paisley motifs) as UI accents |
 
 ### Backend / BaaS
 | Concern | Choice | Rationale |
@@ -81,6 +91,51 @@ A foreign or regional visitor who:
 | Frontend Hosting | Vercel | Zero-config Vite deployment, global CDN, preview deployments |
 | Environment Variables | Vercel + `.env.local` | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` |
 | CI/CD | Vercel Git integration | Auto-deploy on push to `main` |
+
+---
+
+## UI/UX Vision — Immersive Indian Cultural Aesthetic
+
+> **Design Mandate:** The public-facing site (homepage, wedding directory, listing detail) must feel like a premium scrollytelling experience — inspired by [missingpieceinvites.com](https://missingpieceinvites.com) and high-end Indian luxury brands. Not a standard SaaS dashboard; a living, breathing cultural journey.
+
+### Aesthetic Pillars
+
+| Pillar | Implementation |
+|---|---|
+| **Indian Folk Art Motifs** | Lottie JSON animations of rangoli, mehendi/henna patterns, paisley, and marigold garlands as page section dividers and loaders |
+| **3D Cultural Centrepieces** | Spline 3D assets: an interactive spinning brass diya, a blooming lotus, or an ornate mandala rendered via React Three Fiber in hero sections |
+| **Scrollytelling** | GSAP ScrollTrigger pins scenes and animates text/images into view as the user scrolls — stories unfold on the listing detail page |
+| **Smooth Scroll** | Lenis smooth scroll gives the site a silky, almost cinematic inertia instead of jarring native scroll jumps |
+| **Micro-Animations** | Framer Motion powers every interactive element: cards scale on hover, modals spring in, forms stagger-animate field by field |
+| **Colour Palette** | Deep saffron (`#FF6B00`), turmeric gold (`#F5A623`), marigold (`#FFD700`), deep rose (`#C2185B`), ivory cream (`#FDF6E3`), with dark charcoal (`#1A1A2E`) for night-mode sections |
+| **Typography** | Google Fonts: **Cormorant Garamond** (display/headings — classical Indian elegance) + **DM Sans** (body — modern, legible on mobile) |
+
+### Animation Architecture
+
+```
+Page Load
+  └── Framer Motion AnimatePresence (route transitions — fade + slide)
+
+Immersive Public Pages (Homepage, Listing Detail)
+  ├── Lenis (smooth scroll instance — wraps the entire page)
+  ├── GSAP ScrollTrigger (pinned scenes, parallax, text reveals)
+  └── React Three Fiber / Spline (3D hero asset)
+
+UI Components (everywhere)
+  └── Framer Motion (hover, tap, drag, stagger, modal spring)
+
+Decorative Accents (section dividers, loaders, empty states)
+  └── Lottie React (folk art JSON animations)
+
+Dashboards (Host / Traveller)
+  └── Framer Motion only (no heavy GSAP/R3F — dashboards stay fast)
+```
+
+### Performance Contract
+- GSAP, Lenis, and R3F are **lazy-loaded** and only initialised on public immersive pages — never inside the authenticated dashboard
+- Lottie animations use the lightweight `lottie-react` renderer (not the full BodyMovin player)
+- Spline assets are loaded with `React.lazy` + `Suspense` with a Lottie fallback spinner
+- All animations respect `prefers-reduced-motion` via Framer Motion's `useReducedMotion` hook
 
 ---
 
@@ -259,24 +314,33 @@ A foreign or regional visitor who:
 ```
 wedding-yatra/
 ├── public/
+│   └── lottie/              # Lottie JSON folk art assets (rangoli, mehendi, diya)
 ├── src/
 │   ├── components/
-│   │   ├── ui/               # Base design system (Button, Input, Card, Badge, etc.)
-│   │   ├── listing/          # Wedding listing display components
-│   │   ├── host/             # Host-specific dashboard components
-│   │   └── traveller/        # Traveller-specific components
+│   │   ├── ui/              # Base design system (Button, Input, Card, Badge, Modal)
+│   │   ├── motion/          # Shared Framer Motion wrappers (PageTransition, FadeIn, StaggerList)
+│   │   ├── three/           # R3F scene components (HeroScene, MandalaCanvas, DivaScene)
+│   │   ├── listing/         # Wedding listing display components
+│   │   ├── host/            # Host-specific dashboard components
+│   │   └── traveller/       # Traveller-specific components
 │   ├── pages/
-│   │   ├── auth/             # Login, SignUp (with role selection)
-│   │   ├── public/           # Directory, Listing detail page
-│   │   ├── host/             # Host dashboard pages
-│   │   └── traveller/        # Traveller dashboard pages
-│   ├── hooks/                # useWedding, useJoinRequests, useGallery
+│   │   ├── auth/            # Login, SignUp (with role selection)
+│   │   ├── public/          # Homepage, Directory, Listing detail (immersive)
+│   │   ├── host/            # Host dashboard pages
+│   │   └── traveller/       # Traveller dashboard pages
+│   ├── hooks/
+│   │   ├── useWedding.ts
+│   │   ├── useJoinRequests.ts
+│   │   ├── useGallery.ts
+│   │   └── useSmoothScroll.ts   # Lenis instance hook
 │   ├── lib/
-│   │   └── supabase.ts       # Supabase client init
-│   ├── types/                # TypeScript types matching DB schema
-│   └── utils/                # slug generation, date formatting, etc.
+│   │   ├── supabase.ts      # Supabase client init
+│   │   ├── gsap.ts          # GSAP + ScrollTrigger registration
+│   │   └── lenis.ts         # Lenis smooth scroll singleton
+│   ├── types/               # TypeScript types matching DB schema
+│   └── utils/               # slug generation, date formatting, whatsapp links
 ├── .env.local
-├── .planning/                # GSD planning artifacts
+├── .planning/               # GSD planning artifacts
 ├── vite.config.ts
 ├── tailwind.config.ts
 └── tsconfig.json
@@ -313,6 +377,6 @@ wedding-yatra/
 ## Next Step
 
 ```
-Create project roadmap:
-@[create-roadmap.md] (depth=quick)
+Roadmap created (4 phases). Begin Phase 1 planning:
+@[plan-phase.md] 1
 ```
