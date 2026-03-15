@@ -137,11 +137,11 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| AUTH-01 | Phase 1 — Foundation & Auth | Pending |
-| AUTH-02 | Phase 1 — Foundation & Auth | Pending |
-| AUTH-03 | Phase 1 — Foundation & Auth | Pending |
-| AUTH-04 | Phase 1 — Foundation & Auth | Pending |
-| AUTH-05 | Phase 1 — Foundation & Auth | Pending |
+| AUTH-01 | Phase 1 — Foundation & Auth | ✅ Complete |
+| AUTH-02 | Phase 1 — Foundation & Auth | ✅ Complete |
+| AUTH-03 | Phase 1 — Foundation & Auth | ✅ Complete |
+| AUTH-04 | Phase 1 — Foundation & Auth | ✅ Complete |
+| AUTH-05 | Phase 1 — Foundation & Auth | ✅ Complete |
 | LISTING-01 | Phase 2 — Host: Listing, Events & Gallery | Pending |
 | LISTING-02 | Phase 2 — Host: Listing, Events & Gallery | Pending |
 | LISTING-03 | Phase 2 — Host: Listing, Events & Gallery | Pending |

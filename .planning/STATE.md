@@ -5,7 +5,7 @@
 See: `.planning/PROJECT.md` (updated 2026-03-16)
 
 **Core value:** A cultural tourism marketplace that connects foreign and regional travellers with authentic Indian wedding experiences — hosts publish listings, travellers discover and request to join.  
-**Current focus:** Phase 1 — Foundation & Auth
+**Current focus:** Phase 2 — Host: Listing, Events & Gallery
 
 ---
 
@@ -14,31 +14,31 @@ See: `.planning/PROJECT.md` (updated 2026-03-16)
 Phase: **2 of 4** (Host features)  
 Plan: **Not started**  
 Status: **Ready to plan Phase 2**  
-Last activity: 2026-03-16 — Phase 1 complete (Foundation & Auth fully built and verified)
+Last activity: 2026-03-16 — Phase 1 complete (Foundation & Auth fully verified)
 
-Progress: `░░░░░░░░░░ 0%`
+Progress: `███░░░░░░░ 25%`
 
 ---
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 3
+- Average duration: ~1 day
+- Total execution time: < 1 day
 
 **By Phase:**
 
 | Phase | Plans | Total Time | Avg/Plan |
 |-------|-------|------------|----------|
-| 1 — Foundation & Auth | — | — | — |
+| 1 — Foundation & Auth | 3 | < 1d | ~1h |
 | 2 — Host: Listing, Events & Gallery | — | — | — |
 | 3 — Public Directory & Traveller RSVP | — | — | — |
 | 4 — Host Request Mgmt & Launch | — | — | — |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 01-01, 01-02, 01-03
+- Trend: Consistent and stable
 
 ---
 
@@ -49,18 +49,14 @@ Progress: `░░░░░░░░░░ 0%`
 | Decision | Choice | Reason |
 |---|---|---|
 | Role model | Host + Traveller stored in `profiles.role` + `user_metadata` | Enables RLS and role-gated routing |
-| Auth | Supabase email/password | Zero SMTP setup; OAuth is v2 |
-| Browse auth | Public (anon) SELECT on listings | Maximises discovery; reduces sign-up friction |
-| Listing cardinality | One per host | Simplifies RLS and UX for MVP |
-| Join requests | Event-specific (`uuid[]`) | Multi-ceremony selection for informed host decisions |
-| Real-time | None (manual refresh) | Sufficient at MVP scale; avoids Realtime overhead |
-| Frontend | Vite SPA (not Next.js) | Faster scaffold; no SSR needed for MVP |
+| Auth | Supabase email/password | Zero SMTP setup |
+| Browse auth | Public (anon) SELECT on listings | Maximises discovery |
+| UI/UX | Framer Motion + Lenis | Scrollytelling aesthetic for marketing & listing pages |
+| Component UI | Tailwind CSS v3 | Rapid responsive development |
 
 ### Pending Todos
 
-- [ ] Create Supabase project (dev env)
-- [ ] Initialize Vite + React + TypeScript + Tailwind project
-- [ ] Configure Vercel deployment with env vars
+None
 
 ### Blockers/Concerns
 
@@ -71,5 +67,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-16  
-Stopped at: Roadmap created — ready to plan Phase 1  
-Resume with: `@[plan-phase.md] 1`
+Stopped at: Phase 1 complete, ready to plan Phase 2  
+Resume file: None
