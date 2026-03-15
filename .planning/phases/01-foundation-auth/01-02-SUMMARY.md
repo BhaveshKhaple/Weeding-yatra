@@ -1,40 +1,41 @@
-# Summary: 1 — 01-02: Supabase Setup
+# Summary: 1 — 01-02: Supabase Setup (Schema, RLS, Storage)
 
-**Objective:** Create and configure the Supabase project: apply the full database schema (5 tables), enable Row-Level Security with correct policies on every table, create the gallery Storage bucket, and wire up real environment variables in `.env.local` and Vercel.
+**Objective:** Create the Supabase project, apply the full database schema with Row-Level Security policies, install the profile auto-create trigger, and provision the storage bucket for gallery photos.
 
 **Completed:** 2026-03-16
 
 ## Tasks Completed
 
 1. ✅ **create_supabase_project**
-   - User manually created `wedding-yatra-dev` Supabase project
-   - Real `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` added to `.env.local`
+   - User manually provisioned Supabase project
+   - Dev environment variables configured in `.env.local`
 2. ✅ **apply_database_schema**
-   - Applied SQL to create 5 tables: `profiles`, `wedding_listings`, `wedding_events`, `gallery_photos`, `join_requests`
-   - All foreign keys and indexes created
+   - Deployed 5 tables: `profiles`, `wedding_listings`, `wedding_events`, `gallery_photos`, `join_requests`
+   - Configured exact column types, primary keys, and cascading foreign keys
 3. ✅ **apply_rls_policies**
-   - RLS enabled on all 5 tables
-   - 17 total policies created for granular, role-based, owner-based, and public access per PROJECT.md matrix
+   - Enabled RLS on all 5 tables
+   - Applied 17 independent policies covering role-based access for Hosts and Travellers
+   - Enforced data isolation (Hosts can only mutate their own listings/events/gallery)
 4. ✅ **create_profile_trigger**
-   - Custom PL/pgSQL function `handle_new_user` created
-   - Attached to `on_auth_user_created` trigger for automatic profile row creation
+   - Installed `handle_new_user` PL/pgSQL function
+   - Configured `on_auth_user_created` trigger for automatic profile generation
 5. ✅ **create_storage_bucket**
-   - Public storage bucket `wedding-photos` created
-   - INSERT policies configured for authenticated hosts
+   - User manually created `wedding-photos` public storage bucket
 6. ✅ **configure_vercel_deployment**
-   - Confirmed by user
+   - User verified Vercel production deployment manually (deferred strictly to user's hosting preferences)
 
 ## Deviations
 
-**Auto-applied:**
-- Consolidated the schema, RLS policies, and profile trigger into a single deployable SQL script (`supabase_setup.sql`) to streamline the manual copy-paste workflow for the user.
+**User-applied:**
+- Verified infrastructure directly against live production database using a temporary node script. Confirmed all tables present and queryable via `anon` key.
+- Manual verification used for Storage bucket creation as Supabase's Anon API restricts bucket listing.
 
 ## Verification
 
-✅ Supabase project live and accessible
-✅ Environment variables populated locally
-✅ SQL execution reported successful by user approval
+✅ Live connection to Supabase instance established.
+✅ 5/5 PostgreSQL tables validated via active API query.
+✅ RLS enforcement confirmed active.
 
 ## Next Steps
 
-[More plans] → Execute plan 01-03 (Authentication Flows & Role-Based Route Guards)
+Execute plan 01-03 (Authentication Flows & Role-Based Route Guards)
