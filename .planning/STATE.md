@@ -12,11 +12,11 @@ See: `.planning/PROJECT.md` (updated 2026-03-16)
 ## Current Position
 
 Phase: **2 of 4** (Host features)  
-Plan: **Not started**  
-Status: **Ready to plan Phase 2**  
-Last activity: 2026-03-16 — Phase 1 complete (Foundation & Auth fully verified)
+Plan: **Planned (6 plans created)**  
+Status: **Ready to execute Phase 2 plans**  
+Last activity: 2026-03-16 — Phase 2 planned (Database, Motion, Listing, Events, Gallery, Scrollytelling)
 
-Progress: `███░░░░░░░ 25%`
+Progress: `████░░░░░░ 35%`
 
 ---
 
@@ -32,7 +32,7 @@ Progress: `███░░░░░░░ 25%`
 | Phase | Plans | Total Time | Avg/Plan |
 |-------|-------|------------|----------|
 | 1 — Foundation & Auth | 3 | < 1d | ~1h |
-| 2 — Host: Listing, Events & Gallery | — | — | — |
+| 2 — Host: Listing, Events & Gallery | 6 | — | — |
 | 3 — Public Directory & Traveller RSVP | — | — | — |
 | 4 — Host Request Mgmt & Launch | — | — | — |
 
