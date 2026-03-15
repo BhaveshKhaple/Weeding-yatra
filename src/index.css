@@ -1,0 +1,152 @@
+/* Wedding Yatra — Global Styles
+   Google Fonts: Cormorant Garamond (display) + DM Sans (body)
+   Tailwind CSS v3 with Indian cultural design tokens
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base resets ───────────────────────────────────────── */
+@layer base {
+  html {
+    /* Lenis takes over smooth scroll on immersive pages — disable native */
+    scroll-behavior: auto;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    line-height: 1.15;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Respect reduced motion — Framer Motion also checks this natively */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ── Reusable component classes ────────────────────────── */
+@layer components {
+  /* Primary CTA button — saffron filled */
+  .btn-primary {
+    @apply bg-saffron text-white font-sans font-semibold px-6 py-3 rounded-full
+           hover:bg-saffron-dark transition-all duration-300 active:scale-95
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron focus-visible:ring-offset-2;
+  }
+
+  /* Outline button — saffron border */
+  .btn-outline {
+    @apply border-2 border-saffron text-saffron font-sans font-semibold px-6 py-3 rounded-full
+           hover:bg-saffron hover:text-white transition-all duration-300 active:scale-95
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron focus-visible:ring-offset-2;
+  }
+
+  /* Ghost button — subtle, for secondary actions */
+  .btn-ghost {
+    @apply text-charcoal font-sans font-medium px-4 py-2 rounded-full
+           hover:bg-charcoal/5 transition-all duration-200 active:scale-95;
+  }
+
+  /* Base card — used everywhere */
+  .card-base {
+    @apply bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300;
+  }
+
+  /* Dark card — for night-mode sections */
+  .card-dark {
+    @apply bg-charcoal-light rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300;
+  }
+
+  /* Section container — consistent max-width + padding */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Input field base style */
+  .input-base {
+    @apply w-full border border-turmeric/40 rounded-xl px-4 py-3
+           font-sans text-charcoal bg-white placeholder:text-charcoal/40
+           focus:outline-none focus:ring-2 focus:ring-saffron/50 focus:border-saffron
+           transition-all duration-200;
+  }
+
+  /* Badge — status pill */
+  .badge-open {
+    @apply inline-flex items-center gap-1 bg-teal/10 text-teal text-xs font-sans font-semibold
+           px-2.5 py-1 rounded-full;
+  }
+
+  .badge-closed {
+    @apply inline-flex items-center gap-1 bg-charcoal/10 text-charcoal/60 text-xs font-sans font-semibold
+           px-2.5 py-1 rounded-full;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center gap-1 bg-turmeric/15 text-turmeric-dark text-xs font-sans font-semibold
+           px-2.5 py-1 rounded-full;
+  }
+
+  .badge-approved {
+    @apply inline-flex items-center gap-1 bg-teal/10 text-teal text-xs font-sans font-semibold
+           px-2.5 py-1 rounded-full;
+  }
+
+  .badge-declined {
+    @apply inline-flex items-center gap-1 bg-rose/10 text-rose text-xs font-sans font-semibold
+           px-2.5 py-1 rounded-full;
+  }
+
+  /* Decorative divider with saffron gradient */
+  .divider-ornate {
+    @apply relative my-12 flex items-center;
+  }
+  .divider-ornate::before,
+  .divider-ornate::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-turmeric to-transparent;
+  }
+}
+
+/* ── Utility extras ────────────────────────────────────── */
+@layer utilities {
+  /* Text gradient — saffron to rose */
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #FF6B00, #C2185B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glassmorphism surface */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-charcoal/40 backdrop-blur-md border border-white/10;
+  }
+
+  /* Hide scrollbar but keep scroll functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
