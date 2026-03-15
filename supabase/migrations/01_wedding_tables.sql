@@ -1,5 +1,5 @@
 -- 1. Create `wedding_listings` table
-CREATE TABLE public.wedding_listings (
+CREATE TABLE IF NOT EXISTS public.wedding_listings (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   host_id uuid NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE UNIQUE,
   slug text UNIQUE NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE public.wedding_listings (
 );
 
 -- 2. Create `wedding_events` table
-CREATE TABLE public.wedding_events (
+CREATE TABLE IF NOT EXISTS public.wedding_events (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   listing_id uuid NOT NULL REFERENCES public.wedding_listings(id) ON DELETE CASCADE,
   name text NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE public.wedding_events (
 );
 
 -- 3. Create `gallery_photos` table
-CREATE TABLE public.gallery_photos (
+CREATE TABLE IF NOT EXISTS public.gallery_photos (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   listing_id uuid NOT NULL REFERENCES public.wedding_listings(id) ON DELETE CASCADE,
   storage_path text NOT NULL,
@@ -47,11 +47,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS handle_updated_at_wedding_listings ON public.wedding_listings;
 CREATE TRIGGER handle_updated_at_wedding_listings
   BEFORE UPDATE ON public.wedding_listings
   FOR EACH ROW
   EXECUTE PROCEDURE public.handle_updated_at();
 
+DROP TRIGGER IF EXISTS handle_updated_at_wedding_events ON public.wedding_events;
 CREATE TRIGGER handle_updated_at_wedding_events
   BEFORE UPDATE ON public.wedding_events
   FOR EACH ROW
@@ -63,27 +65,33 @@ ALTER TABLE public.wedding_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.gallery_photos ENABLE ROW LEVEL SECURITY;
 
 -- 5. RLS Policies for `wedding_listings`
+DROP POLICY IF EXISTS "Public listings are viewable by everyone." ON public.wedding_listings;
 CREATE POLICY "Public listings are viewable by everyone." 
   ON public.wedding_listings FOR SELECT 
   USING ( true );
 
+DROP POLICY IF EXISTS "Hosts can insert their own listing." ON public.wedding_listings;
 CREATE POLICY "Hosts can insert their own listing." 
   ON public.wedding_listings FOR INSERT 
   WITH CHECK ( auth.uid() = host_id );
 
+DROP POLICY IF EXISTS "Hosts can update their own listing." ON public.wedding_listings;
 CREATE POLICY "Hosts can update their own listing." 
   ON public.wedding_listings FOR UPDATE
   USING ( auth.uid() = host_id );
 
+DROP POLICY IF EXISTS "Hosts can delete their own listing." ON public.wedding_listings;
 CREATE POLICY "Hosts can delete their own listing." 
   ON public.wedding_listings FOR DELETE
   USING ( auth.uid() = host_id );
 
 -- 6. RLS Policies for `wedding_events`
+DROP POLICY IF EXISTS "Public events are viewable by everyone." ON public.wedding_events;
 CREATE POLICY "Public events are viewable by everyone." 
   ON public.wedding_events FOR SELECT 
   USING ( true );
 
+DROP POLICY IF EXISTS "Hosts can insert events for their listing." ON public.wedding_events;
 CREATE POLICY "Hosts can insert events for their listing." 
   ON public.wedding_events FOR INSERT 
   WITH CHECK (
@@ -93,6 +101,7 @@ CREATE POLICY "Hosts can insert events for their listing."
     )
   );
 
+DROP POLICY IF EXISTS "Hosts can update events for their listing." ON public.wedding_events;
 CREATE POLICY "Hosts can update events for their listing." 
   ON public.wedding_events FOR UPDATE 
   USING (
@@ -102,6 +111,7 @@ CREATE POLICY "Hosts can update events for their listing."
     )
   );
 
+DROP POLICY IF EXISTS "Hosts can delete events for their listing." ON public.wedding_events;
 CREATE POLICY "Hosts can delete events for their listing." 
   ON public.wedding_events FOR DELETE 
   USING (
@@ -112,10 +122,12 @@ CREATE POLICY "Hosts can delete events for their listing."
   );
 
 -- 7. RLS Policies for `gallery_photos`
+DROP POLICY IF EXISTS "Public gallery photos are viewable by everyone." ON public.gallery_photos;
 CREATE POLICY "Public gallery photos are viewable by everyone." 
   ON public.gallery_photos FOR SELECT 
   USING ( true );
 
+DROP POLICY IF EXISTS "Hosts can insert photos for their listing." ON public.gallery_photos;
 CREATE POLICY "Hosts can insert photos for their listing." 
   ON public.gallery_photos FOR INSERT 
   WITH CHECK (
@@ -125,6 +137,7 @@ CREATE POLICY "Hosts can insert photos for their listing."
     )
   );
 
+DROP POLICY IF EXISTS "Hosts can delete photos for their listing." ON public.gallery_photos;
 CREATE POLICY "Hosts can delete photos for their listing." 
   ON public.gallery_photos FOR DELETE 
   USING (
@@ -140,10 +153,12 @@ VALUES ('wedding-photos', 'wedding-photos', true)
 ON CONFLICT (id) DO NOTHING;
 
 -- 9. RLS Policies for Storage Bucket `wedding-photos`
+DROP POLICY IF EXISTS "Public can view wedding photos" ON storage.objects;
 CREATE POLICY "Public can view wedding photos"
   ON storage.objects FOR SELECT
   USING ( bucket_id = 'wedding-photos' );
 
+DROP POLICY IF EXISTS "Authenticated users can upload photos" ON storage.objects;
 CREATE POLICY "Authenticated users can upload photos"
   ON storage.objects FOR INSERT
   WITH CHECK (
@@ -151,6 +166,7 @@ CREATE POLICY "Authenticated users can upload photos"
     auth.role() = 'authenticated'
   );
 
+DROP POLICY IF EXISTS "Users can update their own photos" ON storage.objects;
 CREATE POLICY "Users can update their own photos"
   ON storage.objects FOR UPDATE
   USING (
@@ -158,6 +174,7 @@ CREATE POLICY "Users can update their own photos"
     auth.uid() = owner
   );
 
+DROP POLICY IF EXISTS "Users can delete their own photos" ON storage.objects;
 CREATE POLICY "Users can delete their own photos"
   ON storage.objects FOR DELETE
   USING (
