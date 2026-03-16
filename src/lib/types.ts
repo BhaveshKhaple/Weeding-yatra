@@ -70,6 +70,11 @@ export interface WeddingListingWithEvents extends WeddingListing {
   wedding_events: WeddingEvent[]
 }
 
+// Status union — used for type-safe approve/decline mutations
+export type JoinRequestStatus = 'pending' | 'approved' | 'declined'
+
+// Host-facing: join request enriched with traveller profile info
+// profiles is nullable — Supabase join returns null when no profile row is matched
 export interface JoinRequestWithTraveller extends JoinRequest {
-  profiles: Pick<Profile, 'full_name' | 'nationality'>
+  profiles: Pick<Profile, 'full_name' | 'nationality'> | null
 }
