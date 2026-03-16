@@ -136,7 +136,7 @@ export function DirectoryFilterBar({ cities, filters, onFilterChange }: Director
 
         {/* Custom Date Inputs & Active Pills Row */}
         <AnimatePresence>
-          {(activeDatePreset === 'custom' || filters.city || (filters.dateFrom && activeDatePreset !== 'custom')) && (
+          {(activeDatePreset === 'custom' || filters.city || filters.dateFrom || filters.dateTo) && (
             <motion.div 
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
