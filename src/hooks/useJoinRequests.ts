@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
-import type { JoinRequest, JoinRequestInsert } from '../lib/types'
+import type { JoinRequest, JoinRequestInsert, JoinRequestWithListing } from '../lib/types'
 import { useAuth } from '../contexts/AuthContext'
 
 export function useJoinRequests() {
@@ -70,19 +70,29 @@ export function useJoinRequests() {
     }
   }
 
-  const fetchMyRequests = async (travellerId?: string): Promise<JoinRequest[]> => {
+  const fetchMyRequests = async (travellerId?: string): Promise<JoinRequestWithListing[]> => {
     const uid = travellerId || user?.id
     if (!uid) return []
 
     try {
       const { data, error: dbError } = await supabase
         .from('join_requests')
-        .select('*')
+        .select(`
+          *,
+          wedding_listings (
+            bride_name,
+            groom_name,
+            city,
+            wedding_date,
+            slug,
+            cover_photo_url
+          )
+        `)
         .eq('traveller_id', uid)
         .order('submitted_at', { ascending: false })
 
       if (dbError) throw dbError
-      return data as JoinRequest[]
+      return data as JoinRequestWithListing[]
     } catch (err) {
       console.error('Error fetching my requests:', err)
       return []

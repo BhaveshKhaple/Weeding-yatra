@@ -52,10 +52,17 @@ export interface JoinRequest {
   traveller_id:    string
   message:         string
   nationality:     string
+  guest_count:     number
   selected_events: string[]   // array of WeddingEvent.id
   status:          'pending' | 'approved' | 'declined'
   decline_reason:  string | null
   submitted_at:    string
+}
+
+export type JoinRequestInsert = Omit<JoinRequest, 'id' | 'status' | 'decline_reason' | 'submitted_at'>
+
+export interface JoinRequestWithListing extends JoinRequest {
+  wedding_listings: Pick<WeddingListing, 'bride_name' | 'groom_name' | 'city' | 'wedding_date' | 'slug' | 'cover_photo_url'>
 }
 
 // Derived / joined types used in UI

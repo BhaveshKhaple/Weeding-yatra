@@ -12,11 +12,11 @@ See: `.planning/PROJECT.md` (updated 2026-03-16)
 ## Current Position
 
 Phase: **3 of 4** (Public Directory & Traveller RSVP) — **🏗️ IN PROGRESS**  
-Plan: **03-04-rsvp-ui-whatsapp-PLAN.md (Completed)**  
-Status: **Plan 03-04 done. Ready for 03-05.**  
-Last activity: 2026-03-17 — Phase 3 Plan 4 complete (RSVP UI & WhatsApp)
+Plan: **03-05-traveller-dashboard-PLAN.md (Completed)**  
+Status: **Phase 3 COMPLETE. Ready to transition to Phase 4.**  
+Last activity: 2026-03-17 — Phase 3 Plan 5 complete (Traveller Dashboard)
 
-Progress: `██████████ 100% Phase 2 | ████████░░ 80% Phase 3 | 80% Overall`
+Progress: `██████████ 100% Phase 2 | ██████████ 100% Phase 3 | 85% Overall`
 
 ---
 
@@ -69,5 +69,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-17  
-Stopped at: **Phase 3 Plan 4 complete**. Next: Execute 03-05-traveller-dashboard-PLAN.md.  
-Resume file: `.planning/phases/03-public-directory-traveller-rsvp/03-05-traveller-dashboard-PLAN.md`
+Stopped at: **Phase 3 Complete**. Next: Transition to Phase 4 (Host Dashboard & Request Management).  
+Resume file: `.planning/workflows/transition.md`
