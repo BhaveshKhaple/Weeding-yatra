@@ -12,18 +12,18 @@ See: `.planning/PROJECT.md` (updated 2026-03-16)
 ## Current Position
 
 Phase: **2 of 4** (Host features)  
-Plan: **Planned (6 plans created)**  
-Status: **Ready to execute Phase 2 plans**  
-Last activity: 2026-03-16 — Phase 2 planned (Database, Motion, Listing, Events, Gallery, Scrollytelling)
+Plan: **02-02-core-ui-motion-setup-PLAN.md (Completed)**  
+Status: **Executing Phase 2 plans**  
+Last activity: 2026-03-16 — Phase 2 Plan 2 complete (Lenis + Framer Motion + Spline/Lottie placeholders)
 
-Progress: `████░░░░░░ 35%`
+Progress: `██████░░░░ 55%`
 
 ---
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 5
 - Average duration: ~1 day
 - Total execution time: < 1 day
 
@@ -32,12 +32,12 @@ Progress: `████░░░░░░ 35%`
 | Phase | Plans | Total Time | Avg/Plan |
 |-------|-------|------------|----------|
 | 1 — Foundation & Auth | 3 | < 1d | ~1h |
-| 2 — Host: Listing, Events & Gallery | 6 | — | — |
+| 2 — Host: Listing, Events & Gallery | 2/6 | < 1d | ~1h |
 | 3 — Public Directory & Traveller RSVP | — | — | — |
 | 4 — Host Request Mgmt & Launch | — | — | — |
 
 **Recent Trend:**
-- Last 5 plans: 01-01, 01-02, 01-03
+- Last 5 plans: 01-03, 02-01, 02-02
 - Trend: Consistent and stable
 
 ---
@@ -53,6 +53,8 @@ Progress: `████░░░░░░ 35%`
 | Browse auth | Public (anon) SELECT on listings | Maximises discovery |
 | UI/UX | Framer Motion + Lenis | Scrollytelling aesthetic for marketing & listing pages |
 | Component UI | Tailwind CSS v3 | Rapid responsive development |
+| Lenis scope | Only activated on immersive public pages (`/`, `/weddings*`) | Prevents conflict with fixed dashboard elements |
+| AnimatePresence | Root `AppLayout` in `router.tsx` wraps `<Outlet>` | Ensures motion works correctly on route swap |
 
 ### Pending Todos
 
@@ -67,5 +69,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-16  
-Stopped at: Phase 1 complete, ready to plan Phase 2  
+Stopped at: Phase 2 Plan 2 complete. Next: 02-03-listing-creation-PLAN.md  
 Resume file: None
