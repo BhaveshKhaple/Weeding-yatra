@@ -15,6 +15,7 @@ import { useState } from 'react'
 import { CoupleStep }   from './steps/CoupleStep'
 import { VenueDateStep } from './steps/VenueDateStep'
 import { StoryStep }    from './steps/StoryStep'
+import { CoverPhotoStep } from './steps/CoverPhotoStep'
 import type { ListingFormData } from '../../hooks/useWeddingListing'
 import type { WeddingListing } from '../../lib/types'
 
@@ -28,7 +29,7 @@ const makeSlideVariants = (direction: 1 | -1): Variants => ({
 
 // ─── Step config ──────────────────────────────────────────────────────────────
 
-const TOTAL_STEPS = 3
+const TOTAL_STEPS = 4
 
 // ─── Validation per step ──────────────────────────────────────────────────────
 
@@ -37,6 +38,7 @@ function isStepValid(step: number, form: ListingFormData): boolean {
     case 1: return form.bride_name.trim().length > 0 && form.groom_name.trim().length > 0
     case 2: return form.wedding_date.length > 0 && form.city.trim().length > 0 && form.venue_name.trim().length > 0
     case 3: return true  // description is optional
+    case 4: return true  // cover photo is optional
     default: return false
   }
 }
@@ -149,6 +151,7 @@ const EMPTY_FORM: ListingFormData = {
   city:         '',
   venue_name:   '',
   description:  '',
+  cover_photo_url: '',
 }
 
 export function ListingMultiStepForm({ existingListing, onSave, mutStatus, mutError }: Props) {
@@ -163,6 +166,7 @@ export function ListingMultiStepForm({ existingListing, onSave, mutStatus, mutEr
           city:         existingListing.city,
           venue_name:   existingListing.venue_name,
           description:  existingListing.description ?? '',
+          cover_photo_url: existingListing.cover_photo_url ?? '',
         }
       : EMPTY_FORM
   )
@@ -236,6 +240,13 @@ export function ListingMultiStepForm({ existingListing, onSave, mutStatus, mutEr
             {step === 3 && (
               <StoryStep
                 data={{ description: form.description }}
+                onChange={updateField}
+                isEditing={isEditing}
+              />
+            )}
+            {step === 4 && (
+              <CoverPhotoStep
+                data={{ cover_photo_url: form.cover_photo_url }}
                 onChange={updateField}
                 isEditing={isEditing}
               />

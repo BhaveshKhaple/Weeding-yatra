@@ -26,7 +26,7 @@ interface Props {
   isEditing: boolean
 }
 
-export function StoryStep({ data, onChange, isEditing }: Props) {
+export function StoryStep({ data, onChange }: Props) {
   return (
     <motion.div
       variants={containerVariants}
@@ -37,7 +37,7 @@ export function StoryStep({ data, onChange, isEditing }: Props) {
       <motion.div variants={fieldVariants} className="text-center mb-2">
         <span className="text-4xl">✍️</span>
         <p className="font-sans text-ivory/60 text-sm mt-2 tracking-wide uppercase">
-          Step 3 of 3
+          Step 3 of 4
         </p>
         <h2 className="font-display text-3xl text-ivory mt-1">Your Welcome Message</h2>
         <p className="font-sans text-ivory/60 text-sm mt-2 max-w-sm mx-auto">
@@ -61,16 +61,6 @@ export function StoryStep({ data, onChange, isEditing }: Props) {
         <p className="font-sans text-ivory/30 text-xs text-right">
           {data.description.length} / 1000 characters
         </p>
-      </motion.div>
-
-      <motion.div variants={fieldVariants}>
-        <div className="bg-saffron/10 border border-saffron/20 rounded-xl p-4">
-          <p className="font-sans text-saffron/80 text-xs">
-            🎉 You're almost there! Clicking{' '}
-            <strong>{isEditing ? 'Save Changes' : 'Publish Listing'}</strong> will make
-            your wedding instantly visible to travellers in the public directory.
-          </p>
-        </div>
       </motion.div>
     </motion.div>
   )

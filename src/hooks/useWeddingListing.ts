@@ -39,6 +39,8 @@ export interface ListingFormData {
   venue_name: string
   // Step 3 — Story
   description: string
+  // Step 4 — Cover Photo
+  cover_photo_url?: string
 }
 
 type MutationStatus = 'idle' | 'loading' | 'success' | 'error'
@@ -92,6 +94,7 @@ export function useWeddingListing() {
       city:        formData.city,
       venue_name:  formData.venue_name,
       description: formData.description || null,
+      cover_photo_url: formData.cover_photo_url || null,
       status:      (listing?.status ?? 'open') as 'open' | 'closed',
     }
 

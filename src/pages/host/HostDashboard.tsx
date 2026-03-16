@@ -14,6 +14,7 @@ import { useWeddingListing } from '../../hooks/useWeddingListing'
 import { ListingMultiStepForm }  from '../../components/host/ListingMultiStepForm'
 import { ListingStatusToggle }   from '../../components/host/ListingStatusToggle'
 import { EventList } from '../../components/host/events/EventList'
+import { GalleryManager } from '../../components/host/gallery/GalleryManager'
 
 // ─── Loading skeleton ─────────────────────────────────────────────────────────
 
@@ -258,6 +259,10 @@ export function HostDashboard() {
             />
             {/* Events Manager section isolated under the overview */}
             <EventList listingId={listing.id} />
+
+            {/* Gallery Manager section */}
+            <hr className="border-white/10" />
+            <GalleryManager listingId={listing.id} />
           </div>
         ) : (
           <CreateListingCTA onStart={() => setShowForm(true)} />
