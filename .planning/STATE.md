@@ -11,12 +11,12 @@ See: `.planning/PROJECT.md` (updated 2026-03-16)
 
 ## Current Position
 
-Phase: **2 of 4** (Host features) — **✅ COMPLETE**  
-Plan: **02-06-public-preview-PLAN.md (Completed)**  
-Status: **Phase 2 done. Ready for Phase 3.**  
-Last activity: 2026-03-16 — Phase 2 Plan 6 complete (Public Scrollytelling Page)
+Phase: **3 of 4** (Public Directory & Traveller RSVP) — **📋 PLANNED**  
+Plan: **03-01-directory-page-PLAN.md (Ready)**  
+Status: **Phase 3 planned. 5 plans created. Ready for execution.**  
+Last activity: 2026-03-17 — Phase 3 planning complete (5 plans)
 
-Progress: `██████████ 100% Phase 2 | 50% Overall`
+Progress: `██████████ 100% Phase 2 | ░░░░░░░░░░ 0% Phase 3 | 50% Overall`
 
 ---
 
@@ -68,6 +68,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16  
-Stopped at: **Phase 2 complete** (6/6 plans). Next: Transition to Phase 3.  
-Resume file: None
+Last session: 2026-03-17  
+Stopped at: **Phase 3 planned** (5 plans created). Next: Execute 03-01-directory-page-PLAN.md.  
+Resume file: `.planning/phases/03-public-directory-traveller-rsvp/03-01-directory-page-PLAN.md`
