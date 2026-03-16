@@ -15,6 +15,7 @@ import { ListingMultiStepForm }  from '../../components/host/ListingMultiStepFor
 import { ListingStatusToggle }   from '../../components/host/ListingStatusToggle'
 import { EventList } from '../../components/host/events/EventList'
 import { GalleryManager } from '../../components/host/gallery/GalleryManager'
+import { HostRequestsSection } from '../../components/host/HostRequestsSection'
 
 // ─── Loading skeleton ─────────────────────────────────────────────────────────
 
@@ -214,6 +215,12 @@ export function HostDashboard() {
           <span className="font-sans text-ivory/30 text-sm">Host Dashboard</span>
         </div>
         <div className="flex items-center gap-4">
+          <a
+            href="#requests"
+            className="font-sans text-ivory/60 text-sm hidden sm:block hover:text-ivory transition-colors"
+          >
+            📩 Requests
+          </a>
           <span className="font-sans text-ivory/60 text-sm hidden sm:block">
             {profile?.full_name}
           </span>
@@ -263,6 +270,12 @@ export function HostDashboard() {
             {/* Gallery Manager section */}
             <hr className="border-white/10" />
             <GalleryManager listingId={listing.id} />
+
+            {/* Request Management section */}
+            <hr className="border-white/10" />
+            <section id="requests" aria-label="Join Requests">
+              <HostRequestsSection listingId={listing.id} />
+            </section>
           </div>
         ) : (
           <CreateListingCTA onStart={() => setShowForm(true)} />
