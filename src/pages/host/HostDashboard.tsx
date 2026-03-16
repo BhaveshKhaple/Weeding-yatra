@@ -13,6 +13,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useWeddingListing } from '../../hooks/useWeddingListing'
 import { ListingMultiStepForm }  from '../../components/host/ListingMultiStepForm'
 import { ListingStatusToggle }   from '../../components/host/ListingStatusToggle'
+import { EventList } from '../../components/host/events/EventList'
 
 // ─── Loading skeleton ─────────────────────────────────────────────────────────
 
@@ -249,11 +250,15 @@ export function HostDashboard() {
         {fetching ? (
           <DashboardSkeleton />
         ) : listing ? (
-          <ListingOverviewCard
-            listing={listing}
-            onEdit={() => setShowForm(true)}
-            toggleStatus={toggleStatus}
-          />
+          <div className="flex flex-col gap-12">
+            <ListingOverviewCard
+              listing={listing}
+              onEdit={() => setShowForm(true)}
+              toggleStatus={toggleStatus}
+            />
+            {/* Events Manager section isolated under the overview */}
+            <EventList listingId={listing.id} />
+          </div>
         ) : (
           <CreateListingCTA onStart={() => setShowForm(true)} />
         )}
