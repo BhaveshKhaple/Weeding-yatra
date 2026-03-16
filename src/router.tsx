@@ -9,11 +9,11 @@ import { LoginPage }  from './pages/auth/LoginPage'
 import { SignUpPage } from './pages/auth/SignUpPage'
 
 // Lazy-load all other pages (reduces initial bundle)
-const HomePage        = lazy(() => import('./pages/public/HomePage').then(m => ({ default: m.HomePage })))
-const DirectoryPage   = lazy(() => import('./pages/public/DirectoryPage').then(m => ({ default: m.DirectoryPage })))
-const ListingPage     = lazy(() => import('./pages/public/ListingPage').then(m => ({ default: m.ListingPage })))
-const HostDashboard   = lazy(() => import('./pages/host/HostDashboard').then(m => ({ default: m.HostDashboard })))
-const TravellerDash   = lazy(() => import('./pages/traveller/TravellerDashboard').then(m => ({ default: m.TravellerDashboard })))
+const HomePage         = lazy(() => import('./pages/public/HomePage').then(m => ({ default: m.HomePage })))
+const DirectoryPage    = lazy(() => import('./pages/public/DirectoryPage').then(m => ({ default: m.DirectoryPage })))
+const WeddingDetail    = lazy(() => import('./pages/public/WeddingDetail').then(m => ({ default: m.WeddingDetail })))
+const HostDashboard    = lazy(() => import('./pages/host/HostDashboard').then(m => ({ default: m.HostDashboard })))
+const TravellerDash    = lazy(() => import('./pages/traveller/TravellerDashboard').then(m => ({ default: m.TravellerDashboard })))
 
 const PageLoader = () => (
   <div className="min-h-screen bg-ivory flex items-center justify-center">
@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/weddings/:slug',
-        element: <ListingPage />,
+        element: <WeddingDetail />,
       },
     
       // Auth routes
