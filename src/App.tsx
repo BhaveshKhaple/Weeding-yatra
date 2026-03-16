@@ -1,18 +1,6 @@
 import { motion } from 'framer-motion'
-import { useEffect } from 'react'
-import { createLenis } from './lib/lenis'
 
-// Verify animation libraries are importable
-// (R3F and Spline will be lazy-loaded on specific pages)
-
-function App() {
-  useEffect(() => {
-    // Initialize smooth scroll on mount (will be scoped to immersive pages later)
-    // For now just verify the import works
-    const lenis = createLenis()
-    console.log('Lenis loaded:', typeof lenis)
-  }, [])
-
+export default function App() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -20,7 +8,6 @@ function App() {
       transition={{ duration: 0.6 }}
       className="min-h-screen bg-ivory font-sans flex flex-col items-center justify-center p-8 text-center"
     >
-      {/* Lottie JSON animation could go here */}
       <div className="mb-8 p-4 bg-saffron/10 rounded-full w-24 h-24 flex items-center justify-center">
         <span className="text-4xl">🪷</span>
       </div>
@@ -44,5 +31,3 @@ function App() {
     </motion.div>
   )
 }
-
-export default App

@@ -1,6 +1,8 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
+import { AnimatePresence } from 'framer-motion'
+import { useSmoothScroll } from './lib/lenis'
 
 // Auth pages (eagerly loaded — small, needed immediately)
 import { LoginPage }  from './pages/auth/LoginPage'
@@ -21,41 +23,64 @@ const PageLoader = () => (
   </div>
 )
 
+// The Root Layout handles AnimatePresence and Lenis initiation
+const AppLayout = () => {
+  const location = useLocation()
+  
+  // Immersive pages that require smooth scrolling
+  const isImmersive = location.pathname === '/' || location.pathname.startsWith('/weddings')
+  // Automatically instantiate/destroy Lenis based on the current route
+  useSmoothScroll(isImmersive)
+
+  return (
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<PageLoader />} key={location.pathname}>
+        <Outlet />
+      </Suspense>
+    </AnimatePresence>
+  )
+}
+
 export const router = createBrowserRouter([
-  // Public routes
   {
-    path: '/',
-    element: <Suspense fallback={<PageLoader />}><HomePage /></Suspense>,
-  },
-  {
-    path: '/weddings',
-    element: <Suspense fallback={<PageLoader />}><DirectoryPage /></Suspense>,
-  },
-  {
-    path: '/weddings/:slug',
-    element: <Suspense fallback={<PageLoader />}><ListingPage /></Suspense>,
-  },
-
-  // Auth routes
-  { path: '/login',  element: <LoginPage /> },
-  { path: '/signup', element: <SignUpPage /> },
-
-  // Host-protected routes
-  {
-    element: <ProtectedRoute requiredRole="host" />,
+    element: <AppLayout />,
     children: [
-      { path: '/host', element: <Suspense fallback={<PageLoader />}><HostDashboard /></Suspense> },
-    ],
-  },
-
-  // Traveller-protected routes
-  {
-    element: <ProtectedRoute requiredRole="traveller" />,
-    children: [
-      { path: '/traveller', element: <Suspense fallback={<PageLoader />}><TravellerDash /></Suspense> },
-    ],
-  },
-
-  // Fallback
-  { path: '*', element: <Navigate to="/" replace /> },
+      // Public routes
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/weddings',
+        element: <DirectoryPage />,
+      },
+      {
+        path: '/weddings/:slug',
+        element: <ListingPage />,
+      },
+    
+      // Auth routes
+      { path: '/login',  element: <LoginPage /> },
+      { path: '/signup', element: <SignUpPage /> },
+    
+      // Host-protected routes
+      {
+        element: <ProtectedRoute requiredRole="host" />,
+        children: [
+          { path: '/host', element: <HostDashboard /> },
+        ],
+      },
+    
+      // Traveller-protected routes
+      {
+        element: <ProtectedRoute requiredRole="traveller" />,
+        children: [
+          { path: '/traveller', element: <TravellerDash /> },
+        ],
+      },
+    
+      // Fallback
+      { path: '*', element: <Navigate to="/" replace /> },
+    ]
+  }
 ])
