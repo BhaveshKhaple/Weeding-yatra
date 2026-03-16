@@ -23,6 +23,11 @@ import { HeroSection }    from '../../components/listing/HeroSection'
 import { StorySection }   from '../../components/listing/StorySection'
 import { EventsTimeline } from '../../components/listing/EventsTimeline'
 import { PublicGallery }  from '../../components/listing/PublicGallery'
+import { RSVPBottomBar }  from '../../components/traveller/RSVPBottomBar'
+import { RSVPModal }      from '../../components/traveller/RSVPModal'
+import { useJoinRequests } from '../../hooks/useJoinRequests'
+import { useAuth }         from '../../contexts/AuthContext'
+import type { JoinRequest } from '../../lib/types'
 
 // ─── Not Found ────────────────────────────────────────────────────────────────
 
@@ -88,6 +93,11 @@ export function WeddingDetail() {
   const [loading, setLoading]   = useState(true)
   const [notFound, setNotFound] = useState(false)
 
+  const { user } = useAuth()
+  const { checkExistingRequest } = useJoinRequests()
+  const [existingRequest, setExistingRequest] = useState<JoinRequest | null>(null)
+  const [showRSVPModal, setShowRSVPModal] = useState(false)
+
   useEffect(() => {
     if (!slug) {
       setNotFound(true)
@@ -100,12 +110,11 @@ export function WeddingDetail() {
     async function loadAll() {
       setLoading(true)
 
-      // 1. Fetch the listing by slug
+      // 1. Fetch the listing by slug (we allow closed listings here so the page still exists)
       const { data: listingData, error: listingErr } = await supabase
         .from('wedding_listings')
         .select('*')
         .eq('slug', currentSlug)
-        .eq('status', 'open')
         .single()
 
       if (listingErr || !listingData) {
@@ -134,11 +143,18 @@ export function WeddingDetail() {
         .order('created_at', { ascending: false })
 
       setPhotos(photosData || [])
+
+      // 4. If logged in, check if user has already requested to join
+      if (user) {
+        const req = await checkExistingRequest(listingData.id)
+        setExistingRequest(req)
+      }
+
       setLoading(false)
     }
 
     loadAll()
-  }, [slug])
+  }, [slug, user])
 
   if (loading)  return <DetailSkeleton />
   if (notFound) return <NotFound />
@@ -195,35 +211,29 @@ export function WeddingDetail() {
           </>
         )}
 
-        {/* 6 ── Footer CTA (Join Request — Phase 3) */}
-        <motion.section
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8 }}
-          className="py-24 px-6 text-center border-t border-white/10"
-        >
-          <div className="max-w-xl mx-auto flex flex-col gap-6 items-center">
-            <span className="text-5xl">🎊</span>
-            <h2 className="font-display text-4xl md:text-5xl text-ivory">
-              Want to be part of this celebration?
-            </h2>
-            <p className="font-sans text-ivory/50 text-lg">
-              Request an invitation to join {listing.bride_name} & {listing.groom_name}'s wedding as a cultural traveller.
-            </p>
-            <Link
-              to="/signup"
-              className="btn-primary text-lg px-10 py-4 mt-2"
-            >
-              Request to Join →
-            </Link>
-            <Link to="/weddings" className="font-sans text-ivory/30 hover:text-ivory/60 text-sm transition-colors">
-              ← Back to directory
-            </Link>
-          </div>
-        </motion.section>
+        {/* 6 ── Footer CTA (Join Request) */}
+        <div className="pb-32 px-6 pt-12 text-center text-ivory/30">
+          <p className="font-sans text-sm pb-4">End of {listing.bride_name} & {listing.groom_name}'s listing</p>
+        </div>
 
       </div>
+
+      <RSVPBottomBar 
+        listing={listing} 
+        onRequestJoin={() => setShowRSVPModal(true)} 
+        existingRequest={existingRequest} 
+      />
+
+      <RSVPModal 
+        isOpen={showRSVPModal} 
+        onClose={() => setShowRSVPModal(false)} 
+        listing={listing} 
+        events={events}
+        onSuccess={() => {
+          // After success, re-fetch the existing request state to update the bottom bar to "Pending"
+          checkExistingRequest(listing.id).then(req => setExistingRequest(req))
+        }}
+      />
     </PageTransition>
   )
 }
