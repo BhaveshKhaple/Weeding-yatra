@@ -6,7 +6,7 @@ import { RequestCard } from './RequestCard'
 import { RequestActionModal } from './RequestActionModal'
 
 export function HostRequestsSection({ listingId }: { listingId: string }) {
-  const { fetchHostRequests, updateRequestStatus, loading } = useJoinRequests()
+  const { fetchHostRequests, updateRequestStatus, loading, error } = useJoinRequests()
 
   // ── State ─────────────────────────────────────────────────────────────────
   const [requests, setRequests] = useState<JoinRequestWithTraveller[]>([])
@@ -109,6 +109,11 @@ export function HostRequestsSection({ listingId }: { listingId: string }) {
 
   return (
     <div className="flex flex-col gap-6 w-full py-8 text-ivory">
+      {error && (
+        <div className="bg-rose/10 border border-rose/20 rounded-xl p-4 text-rose text-sm">
+          ⚠️ {error}
+        </div>
+      )}
       <div className="flex items-center gap-3">
         <h2 className="font-display text-3xl">Incoming Requests</h2>
         {counts.pending > 0 && (
@@ -132,7 +137,7 @@ export function HostRequestsSection({ listingId }: { listingId: string }) {
       </div>
 
       {/* Status Tabs */}
-      <div className="flex items-center gap-6 border-b border-white/10 overflow-x-auto scrollbar-hide">
+      <div className="flex items-center gap-6 border-b border-white/10 overflow-x-auto scrollbar-hide" data-lenis-prevent>
         {(['pending', 'approved', 'declined', 'all'] as const).map(tab => (
           <button
             key={tab}

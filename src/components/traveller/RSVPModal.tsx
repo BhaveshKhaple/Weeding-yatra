@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react'
+import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../../contexts/AuthContext'
 import { useJoinRequests } from '../../hooks/useJoinRequests'
@@ -56,6 +56,38 @@ export function RSVPModal({ isOpen, onClose, listing, events, onSuccess }: RSVPM
     }
   }
 
+  // Escape key + focus trapping
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') { onClose(); return }
+    // Focus trap
+    if (e.key === 'Tab' && modalRef.current) {
+      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
+    }
+  }, [onClose])
+
+  useEffect(() => {
+    if (!isOpen) return
+    document.addEventListener('keydown', handleKeyDown)
+    // Focus first element on open
+    const timer = setTimeout(() => {
+      const first = modalRef.current?.querySelector<HTMLElement>('button, input, textarea')
+      first?.focus()
+    }, 100)
+    return () => { document.removeEventListener('keydown', handleKeyDown); clearTimeout(timer) }
+  }, [isOpen, handleKeyDown])
+
   if (!isOpen) return null
 
   return (
@@ -71,20 +103,30 @@ export function RSVPModal({ isOpen, onClose, listing, events, onSuccess }: RSVPM
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
 
-        {/* Slide-over panel */}
+        {/* Slide-over panel — bottom sheet on mobile, centered on desktop */}
         <motion.div 
+          ref={modalRef}
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="relative w-full sm:w-[500px] h-[90vh] sm:h-[85vh] bg-charcoal border border-white/10 sm:rounded-2xl rounded-t-3xl shadow-2xl overflow-y-auto flex flex-col"
+          className="relative w-full sm:w-[500px] h-[92vh] sm:h-[85vh] bg-charcoal border border-white/10 sm:rounded-2xl rounded-t-3xl shadow-2xl overflow-y-auto flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="rsvp-modal-title"
         >
+          {/* Drag handle — mobile bottom-sheet cue */}
+          <div className="sm:hidden flex justify-center py-2">
+            <div className="w-10 h-1 bg-white/20 rounded-full" />
+          </div>
+
           {/* Header */}
           <div className="sticky top-0 z-10 bg-charcoal/90 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
-            <h2 className="font-display text-xl text-ivory">Request to Join</h2>
+            <h2 id="rsvp-modal-title" className="font-display text-xl text-ivory">Request to Join</h2>
             <button 
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-ivory transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-ivory transition-colors focus-visible-ring"
+              aria-label="Close modal"
             >
               ✕
             </button>

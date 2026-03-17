@@ -106,7 +106,7 @@ export function DirectoryFilterBar({ cities, filters, onFilterChange }: Director
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2" data-lenis-prevent>
             <PresetButton 
               active={activeDatePreset === 'all'} 
               onClick={() => applyDatePreset('all')}
@@ -212,7 +212,7 @@ function PresetButton({ children, active, onClick }: { children: React.ReactNode
   return (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
+      className={`px-3 py-1.5 min-h-[44px] rounded-lg text-xs font-medium transition-colors border focus-visible-ring ${
         active 
           ? 'bg-saffron/20 border-saffron/40 text-turmeric shadow-[0_0_10px_rgba(255,107,0,0.1)]' 
           : 'bg-white/5 border-white/10 text-ivory/60 hover:bg-white/10 hover:text-ivory'

@@ -169,6 +169,58 @@ export interface Database {
           }
         ]
       }
+      join_requests: {
+        Row: {
+          id: string
+          listing_id: string
+          traveller_id: string
+          message: string
+          nationality: string
+          guest_count: number
+          selected_events: string[]
+          status: 'pending' | 'approved' | 'declined'
+          decline_reason: string | null
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          listing_id: string
+          traveller_id: string
+          message?: string
+          nationality?: string
+          guest_count?: number
+          selected_events?: string[]
+          status?: 'pending' | 'approved' | 'declined'
+          decline_reason?: string | null
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          listing_id?: string
+          traveller_id?: string
+          message?: string
+          nationality?: string
+          guest_count?: number
+          selected_events?: string[]
+          status?: 'pending' | 'approved' | 'declined'
+          decline_reason?: string | null
+          submitted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "join_requests_listing_id_fkey"
+            columns: ["listing_id"]
+            referencedRelation: "wedding_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "join_requests_traveller_id_fkey"
+            columns: ["traveller_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never

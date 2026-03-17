@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 // Create a singleton so it can be managed
 let lenis: Lenis | null = null
@@ -17,8 +18,10 @@ export const useSmoothScroll = (isImmersivePage: boolean = false) => {
 
     if (!lenis) {
       lenis = new Lenis({
-        lerp: 0.1, // Controls the smoothing. Lower = smoother
-        smoothWheel: true,
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        touchMultiplier: 2,
+        infinite: false,
       })
 
       const raf = (time: number) => {
@@ -35,6 +38,7 @@ export const useSmoothScroll = (isImmersivePage: boolean = false) => {
         lenis.destroy()
         lenis = null
       }
+      ScrollTrigger.getAll().forEach(t => t.kill())
     }
   }, [isImmersivePage])
 

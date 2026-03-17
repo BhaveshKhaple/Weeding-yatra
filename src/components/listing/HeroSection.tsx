@@ -77,10 +77,10 @@ export function HeroSection({ listing }: Props) {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
-          className="font-display text-6xl md:text-8xl text-ivory leading-tight mb-4"
+          className="font-display text-4xl sm:text-6xl md:text-8xl text-ivory leading-tight mb-4"
         >
           {listing.bride_name}
-          <span className="text-saffron mx-4 md:mx-6">&</span>
+          <span className="text-saffron mx-2 sm:mx-4 md:mx-6">&</span>
           {listing.groom_name}
         </motion.h1>
 

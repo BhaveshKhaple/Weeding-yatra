@@ -52,6 +52,7 @@ export function useWeddingListing() {
 
   const [listing, setListing]     = useState<WeddingListing | null>(null)
   const [fetching, setFetching]   = useState(true)
+  const [error, setError]         = useState<string | null>(null)
   const [mutStatus, setMutStatus] = useState<MutationStatus>('idle')
   const [mutError, setMutError]   = useState<string | null>(null)
 
@@ -61,13 +62,17 @@ export function useWeddingListing() {
     if (!user) { setFetching(false); return }
 
     setFetching(true)
-    const { data, error } = await supabase
+    setError(null)
+    const { data, error: fetchError } = await supabase
       .from('wedding_listings')
       .select('*')
       .eq('host_id', user.id)
       .maybeSingle()
 
-    if (error) console.error('[useWeddingListing] fetch error:', error)
+    if (fetchError) {
+      console.error('[useWeddingListing] fetch error:', fetchError)
+      setError(fetchError.message)
+    }
     setListing(data ?? null)
     setFetching(false)
   }, [user])
@@ -141,6 +146,7 @@ export function useWeddingListing() {
   return {
     listing,
     fetching,
+    error,
     saveListing,
     toggleStatus,
     mutStatus,

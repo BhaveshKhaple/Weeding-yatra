@@ -39,7 +39,7 @@ export function RSVPBottomBar({ listing, onRequestJoin, existingRequest }: RSVPB
       transition={{ type: 'spring', damping: 20, stiffness: 100 }}
       className="fixed bottom-0 left-0 right-0 z-50 bg-charcoal/80 supports-[backdrop-filter]:bg-charcoal/60 backdrop-blur-xl border-t border-white/10 pb-safe shadow-[0_-10px_40px_rgba(0,0,0,0.5)]"
     >
-      <div className="max-w-3xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
         
         {/* Helper Text */}
         <div className="text-center sm:text-left">

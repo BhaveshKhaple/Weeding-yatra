@@ -8,7 +8,7 @@
  */
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useWeddingListing } from '../../hooks/useWeddingListing'
 import { ListingMultiStepForm }  from '../../components/host/ListingMultiStepForm'
@@ -128,7 +128,7 @@ function ListingOverviewCard({ listing, onEdit, toggleStatus }: {
       <div className="h-px bg-white/10" />
 
       {/* Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <motion.button
           onClick={onEdit}
           whileHover={{ scale: 1.02 }}
@@ -141,7 +141,7 @@ function ListingOverviewCard({ listing, onEdit, toggleStatus }: {
           href={`/weddings/${listing.slug}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-sans text-ivory/40 text-sm hover:text-ivory/70 transition-colors"
+          className="font-sans text-ivory/40 text-sm hover:text-ivory/70 transition-colors text-center sm:text-left"
         >
           View Public Page →
         </a>
@@ -153,26 +153,59 @@ function ListingOverviewCard({ listing, onEdit, toggleStatus }: {
 // ─── Form Modal Shell ─────────────────────────────────────────────────────────
 
 function FormModal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') { onClose(); return }
+    if (e.key === 'Tab' && modalRef.current) {
+      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
+    }
+  }, [onClose])
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    const timer = setTimeout(() => {
+      const first = modalRef.current?.querySelector<HTMLElement>('button, input, textarea')
+      first?.focus()
+    }, 100)
+    return () => { document.removeEventListener('keydown', handleKeyDown); clearTimeout(timer) }
+  }, [handleKeyDown])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm"
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Edit listing"
     >
       <motion.div
+        ref={modalRef}
         initial={{ opacity: 0, scale: 0.92, y: 24 }}
         animate={{ opacity: 1, scale: 1,    y: 0 }}
         exit={{ opacity: 0, scale: 0.92,    y: 24 }}
         transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-        className="bg-charcoal border border-white/10 rounded-3xl p-8 w-full max-w-md max-h-[90vh] overflow-y-auto scrollbar-hide shadow-2xl"
+        className="bg-charcoal border border-white/10 rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto scrollbar-hide shadow-2xl"
       >
         {/* Close */}
         <div className="flex justify-end mb-4">
           <button
             onClick={onClose}
-            className="font-sans text-ivory/40 hover:text-ivory text-xl transition-colors w-8 h-8 flex items-center justify-center"
+            className="font-sans text-ivory/40 hover:text-ivory text-xl transition-colors w-8 h-8 flex items-center justify-center focus-visible-ring rounded-full"
+            aria-label="Close modal"
           >
             ×
           </button>
@@ -242,7 +275,7 @@ export function HostDashboard() {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <h1 className="font-display text-5xl text-ivory">
+          <h1 className="font-display text-3xl sm:text-5xl text-ivory">
             Welcome back,{' '}
             <span className="text-gradient-warm">
               {profile?.full_name?.split(' ')[0] || 'Host'}

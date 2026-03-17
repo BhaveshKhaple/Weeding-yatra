@@ -80,7 +80,7 @@ export function TravellerDashboard() {
             <motion.h1 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-display text-4xl sm:text-5xl text-ivory flex items-center gap-3 drop-shadow-sm"
+              className="font-display text-3xl sm:text-4xl md:text-5xl text-ivory flex items-center gap-3 drop-shadow-sm"
             >
              <span className="text-4xl drop-shadow-none">🙏</span> Namaste, {profile?.full_name?.split(' ')[0] || 'Traveler'}
             </motion.h1>
@@ -116,7 +116,7 @@ export function TravellerDashboard() {
           ) : (
             <>
               {/* Summary Stats Bar */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
                 <StatCard title="Total Requests" value={statCounts.all} icon="📜" />
                 <StatCard title="Pending" value={statCounts.pending} icon="⏳" colorClass="text-amber-500" />
                 <StatCard title="Approved" value={statCounts.approved} icon="✅" colorClass="text-green-500" />
@@ -124,7 +124,7 @@ export function TravellerDashboard() {
               </div>
 
               {/* Status Filter Tabs */}
-              <div className="flex items-center gap-2 sm:gap-6 border-b border-ivory/10 mb-8 overflow-x-auto no-scrollbar">
+              <div className="flex items-center gap-2 sm:gap-6 border-b border-ivory/10 mb-8 overflow-x-auto no-scrollbar" data-lenis-prevent>
                 {(['All', 'Pending', 'Approved', 'Declined'] as FilterType[]).map((tab) => (
                   <button
                     key={tab}

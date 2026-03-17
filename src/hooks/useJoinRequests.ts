@@ -146,8 +146,9 @@ export function useJoinRequests() {
 
       if (dbError) throw dbError
       return (data as JoinRequestWithTraveller[]) ?? []
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error fetching host requests:', err)
+      setError(err.message || 'Failed to fetch requests.')
       return []
     } finally {
       setLoading(false)
