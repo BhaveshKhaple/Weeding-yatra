@@ -70,7 +70,7 @@ function NotFound() {
 
 function DetailSkeleton() {
   return (
-    <div className="min-h-screen bg-charcoal animate-pulse">
+    <div className="min-h-screen bg-charcoal animate-pulse" aria-busy="true" aria-label="Loading wedding details">
       <div className="h-screen w-full bg-white/5" />
       <div className="max-w-3xl mx-auto px-6 py-24 flex flex-col gap-6">
         <div className="h-10 bg-white/10 rounded-xl w-2/3 mx-auto" />

@@ -95,7 +95,7 @@ export function TravellerDashboard() {
           </header>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse" aria-busy="true" aria-label="Loading requests">
               {[1, 2, 3].map(i => <div key={i} className="bg-white/5 h-48 rounded-2xl" />)}
             </div>
           ) : requests.length === 0 ? (
@@ -124,12 +124,15 @@ export function TravellerDashboard() {
               </div>
 
               {/* Status Filter Tabs */}
-              <div className="flex items-center gap-2 sm:gap-6 border-b border-ivory/10 mb-8 overflow-x-auto no-scrollbar" data-lenis-prevent>
+              <div className="flex items-center gap-2 sm:gap-6 border-b border-ivory/10 mb-8 overflow-x-auto no-scrollbar" role="tablist" aria-label="Filter requests by status" data-lenis-prevent>
                 {(['All', 'Pending', 'Approved', 'Declined'] as FilterType[]).map((tab) => (
                   <button
                     key={tab}
+                    role="tab"
+                    aria-selected={filter === tab}
+                    aria-controls="traveller-requests-panel"
                     onClick={() => setFilter(tab)}
-                    className={`relative px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap focus:outline-none ${
+                    className={`relative px-4 py-3 min-h-[44px] text-sm font-medium transition-colors whitespace-nowrap focus-visible-ring rounded ${
                       filter === tab ? 'text-ivory' : 'text-ivory/40 hover:text-ivory/70'
                     }`}
                   >
@@ -145,7 +148,7 @@ export function TravellerDashboard() {
               </div>
 
               {/* Grid */}
-              <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="traveller-requests-panel" role="tabpanel">
                 <AnimatePresence mode="popLayout">
                   {filteredRequests.length > 0 ? (
                     filteredRequests.map((req, i) => (

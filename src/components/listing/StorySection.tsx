@@ -24,6 +24,16 @@ export function StorySection({ brideName, groomName, description }: Props) {
   useEffect(() => {
     if (!sectionRef.current) return
 
+    // Respect prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      // Just make elements visible immediately
+      if (iconRef.current) { iconRef.current.style.opacity = '1' }
+      if (titleRef.current) { titleRef.current.style.opacity = '1' }
+      if (textRef.current) { textRef.current.style.opacity = '1' }
+      return
+    }
+
     const ctx = gsap.context(() => {
       // Icon floats in
       gsap.fromTo(iconRef.current,

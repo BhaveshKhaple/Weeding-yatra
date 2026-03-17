@@ -5,7 +5,7 @@
  */
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import type { WeddingListing } from '../../lib/types'
 
 interface Props {
@@ -20,11 +20,13 @@ export function HeroSection({ listing }: Props) {
     offset: ['start start', 'end start'],
   })
 
-  // Parallax: cover image moves up as you scroll
-  const imageY     = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+  const shouldReduceMotion = useReducedMotion()
+
+  // Parallax: cover image moves up as you scroll (disabled if reduced motion)
+  const imageY     = useTransform(scrollYProgress, [0, 1], ['0%', shouldReduceMotion ? '0%' : '30%'])
   // Fade + lift: title fades and rises as you scroll
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const textY       = useTransform(scrollYProgress, [0, 0.5], ['0%', '-20%'])
+  const textY       = useTransform(scrollYProgress, [0, 0.5], ['0%', shouldReduceMotion ? '0%' : '-20%'])
 
   const dateObj = listing.wedding_date
     ? new Date(listing.wedding_date + 'T00:00:00')
@@ -45,7 +47,7 @@ export function HeroSection({ listing }: Props) {
         {listing.cover_photo_url ? (
           <img
             src={listing.cover_photo_url}
-            alt={`${listing.bride_name} & ${listing.groom_name} wedding`}
+            alt={`Cover photo for ${listing.bride_name} & ${listing.groom_name}'s wedding`}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -74,7 +76,7 @@ export function HeroSection({ listing }: Props) {
 
         {/* Names */}
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
           className="font-display text-4xl sm:text-6xl md:text-8xl text-ivory leading-tight mb-4"
@@ -86,7 +88,7 @@ export function HeroSection({ listing }: Props) {
 
         {/* Date + Location */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
           className="font-sans text-ivory/70 text-lg md:text-xl tracking-wide"
@@ -113,7 +115,7 @@ export function HeroSection({ listing }: Props) {
         >
           <span className="font-sans text-ivory/30 text-xs uppercase tracking-widest">Scroll to explore</span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
+            animate={{ y: shouldReduceMotion ? 0 : [0, 8, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
             className="w-px h-10 bg-gradient-to-b from-ivory/40 to-transparent"
           />

@@ -64,7 +64,7 @@ export function RequestCard({ request, onApprove, onDecline, index }: RequestCar
           </div>
         </div>
         
-        <div className={`px-2.5 py-1 rounded-full text-xs font-medium border ${statusColors[request.status]} capitalize whitespace-nowrap`}>
+        <div role="status" aria-label={`Status: ${request.status}`} className={`px-2.5 py-1 rounded-full text-xs font-medium border ${statusColors[request.status]} capitalize whitespace-nowrap`}>
           {request.status}
         </div>
       </div>
@@ -105,14 +105,16 @@ export function RequestCard({ request, onApprove, onDecline, index }: RequestCar
           <motion.button
             onClick={() => onApprove(request)}
             whileTap={{ scale: 0.97 }}
-            className="flex-1 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-sm font-medium transition-colors border border-emerald-500/20"
+            className="flex-1 py-2 min-h-[44px] rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-sm font-medium transition-colors border border-emerald-500/20 focus-visible-ring"
+            aria-label={`Approve request from ${name}`}
           >
             ✓ Approve
           </motion.button>
           <motion.button
             onClick={() => onDecline(request)}
             whileTap={{ scale: 0.97 }}
-            className="flex-1 py-2 rounded-xl bg-transparent hover:bg-rose/10 text-rose text-sm font-medium transition-colors border border-rose/20"
+            className="flex-1 py-2 min-h-[44px] rounded-xl bg-transparent hover:bg-rose/10 text-rose text-sm font-medium transition-colors border border-rose/20 focus-visible-ring"
+            aria-label={`Decline request from ${name}`}
           >
             ✗ Decline
           </motion.button>

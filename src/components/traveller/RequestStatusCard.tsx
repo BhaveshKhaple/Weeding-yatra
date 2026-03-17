@@ -48,7 +48,7 @@ export function RequestStatusCard({ request, index }: RequestStatusCardProps) {
         </div>
 
         {/* Status Badge */}
-        <div className={`px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap ${
+        <div role="status" aria-label={`Status: ${request.status}`} className={`px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap ${
           isPending ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
           isApproved ? 'bg-green-500/10 text-green-500 border-green-500/20' :
           'bg-rose/10 text-rose border-rose/20'

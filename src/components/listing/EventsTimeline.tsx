@@ -36,6 +36,17 @@ export function EventsTimeline({ events }: Props) {
   useEffect(() => {
     if (!sectionRef.current) return
 
+    // Respect prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      if (titleRef.current) { titleRef.current.style.opacity = '1' }
+      const items = itemsRef.current?.querySelectorAll<HTMLElement>('.event-item')
+      if (items) {
+        items.forEach(item => { item.style.opacity = '1' })
+      }
+      return
+    }
+
     const ctx = gsap.context(() => {
       // Title reveal
       gsap.fromTo(titleRef.current,

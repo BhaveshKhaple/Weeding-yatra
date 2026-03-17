@@ -97,7 +97,7 @@ export function HostRequestsSection({ listingId }: { listingId: string }) {
 
   if (loading && requests.length === 0) {
     return (
-      <div className="flex flex-col gap-6 animate-pulse mt-8">
+      <div className="flex flex-col gap-6 animate-pulse mt-8" aria-busy="true" aria-label="Loading requests">
         <div className="h-6 w-48 bg-white/10 rounded-xl" />
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => <div key={i} className="h-24 bg-white/10 rounded-2xl" />)}
@@ -129,7 +129,7 @@ export function HostRequestsSection({ listingId }: { listingId: string }) {
           { id: 'approved', label: 'Approved', count: counts.approved, color: 'text-emerald-400' },
           { id: 'declined', label: 'Declined', count: counts.declined, color: 'text-rose' },
         ].map(stat => (
-          <div key={stat.id} className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col justify-center">
+          <div key={stat.id} role="status" aria-label={`${stat.label}: ${stat.count}`} className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col justify-center">
             <div className="text-sm text-ivory/50 font-sans">{stat.label}</div>
             <div className={`text-3xl font-display mt-1 ${stat.color}`}>{stat.count}</div>
           </div>
@@ -137,12 +137,15 @@ export function HostRequestsSection({ listingId }: { listingId: string }) {
       </div>
 
       {/* Status Tabs */}
-      <div className="flex items-center gap-6 border-b border-white/10 overflow-x-auto scrollbar-hide" data-lenis-prevent>
+      <div className="flex items-center gap-6 border-b border-white/10 overflow-x-auto scrollbar-hide" role="tablist" aria-label="Filter requests by status" data-lenis-prevent>
         {(['pending', 'approved', 'declined', 'all'] as const).map(tab => (
           <button
             key={tab}
+            role="tab"
+            aria-selected={activeTab === tab}
+            aria-controls="requests-tabpanel"
             onClick={() => setActiveTab(tab)}
-            className={`relative py-3 px-1 font-medium text-sm transition-colors whitespace-nowrap outline-none ${
+            className={`relative py-3 px-1 min-h-[44px] font-medium text-sm transition-colors whitespace-nowrap focus-visible-ring rounded ${
               activeTab === tab ? 'text-saffron' : 'text-ivory/50 hover:text-ivory/80'
             }`}
           >
@@ -163,7 +166,7 @@ export function HostRequestsSection({ listingId }: { listingId: string }) {
 
       {/* Requests List */}
       <div className="min-h-[200px] relative">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4" id="requests-tabpanel" role="tabpanel">
           <AnimatePresence mode="popLayout" initial={false}>
             {filtered.length === 0 ? (
               <motion.div

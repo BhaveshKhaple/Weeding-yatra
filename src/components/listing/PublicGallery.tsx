@@ -3,7 +3,7 @@
  * Each photo fades + scales in as it enters the viewport via Framer Motion viewport animation.
  */
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { GalleryPhoto } from '../../lib/types'
 
 interface Props {
@@ -13,11 +13,13 @@ interface Props {
 export function PublicGallery({ photos }: Props) {
   if (photos.length === 0) return null
 
+  const shouldReduceMotion = useReducedMotion()
+
   return (
-    <section className="py-24 px-6 max-w-6xl mx-auto">
+    <section className="py-24 px-6 max-w-6xl mx-auto" aria-label="Wedding photo gallery">
       {/* Heading */}
       <motion.h2
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -31,15 +33,15 @@ export function PublicGallery({ photos }: Props) {
         {photos.map((photo, i) => (
           <motion.div
             key={photo.id}
-            initial={{ opacity: 0, scale: 0.92 }}
+            initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.92 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, delay: (i % 6) * 0.07, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: shouldReduceMotion ? 0 : (i % 6) * 0.07, ease: 'easeOut' }}
             className="break-inside-avoid group relative overflow-hidden rounded-2xl border border-white/5 mb-4"
           >
             <img
               src={photo.public_url}
-              alt={`Gallery photo ${i + 1}`}
+              alt={`Wedding celebration photo ${i + 1}`}
               loading="lazy"
               className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />

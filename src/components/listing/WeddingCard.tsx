@@ -29,7 +29,7 @@ export function WeddingCard({ listing }: WeddingCardProps) {
       {listing.cover_photo_url ? (
         <img
           src={listing.cover_photo_url}
-          alt={`${listing.bride_name} and ${listing.groom_name}`}
+          alt={`Cover photo for ${listing.bride_name} and ${listing.groom_name}'s wedding`}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
       ) : (
