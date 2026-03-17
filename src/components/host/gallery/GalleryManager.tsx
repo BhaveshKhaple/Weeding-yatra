@@ -44,7 +44,7 @@ export function GalleryManager({ listingId }: Props) {
         </div>
 
         {fetching ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-pulse">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-pulse" aria-busy="true" aria-label="Loading gallery photos">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="aspect-[4/5] bg-white/5 rounded-2xl w-full" />
             ))}
