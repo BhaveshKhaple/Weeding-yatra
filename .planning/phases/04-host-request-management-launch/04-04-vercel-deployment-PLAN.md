@@ -6,7 +6,7 @@ Prepare and execute the v1.0 production deployment: ensure all environment varia
 
 ## Requirements Addressed
 
-- [ ] **Phase 4 Success Criterion 6**: Production Vercel URL is live, all environment variables set
+- [x] **Phase 4 Success Criterion 6**: Production Vercel URL is live, all environment variables set
 
 ## Context Files
 
@@ -55,10 +55,10 @@ npm run build && npm run preview
 ```
 
 **Done when:**
-- [ ] `npx tsc --noEmit` exits with 0 errors
-- [ ] `npm run build` completes without errors
-- [ ] `npm run preview` loads the app at `localhost:4173`
-- [ ] No `process.env` references (only `import.meta.env.VITE_*`)
+- [x] `npx tsc --noEmit` exits with 0 errors
+- [x] `npm run build` completes without errors
+- [x] `npm run preview` loads the app at `localhost:4173`
+- [x] No `process.env` references (only `import.meta.env.VITE_*`)
 </task>
 
 <task name="vercel_env_vars" type="checkpoint:human-verify">
@@ -133,9 +133,9 @@ curl -I https://your-app.vercel.app/weddings
 ```
 
 **Done when:**
-- [ ] `vercel.json` created with SPA rewrite rule
-- [ ] Direct URL access to any route works (no 404)
-- [ ] Deployment build succeeds on Vercel
+- [x] `vercel.json` created with SPA rewrite rule
+- [x] Direct URL access to any route works (no 404)
+- [x] Deployment build succeeds on Vercel
 </task>
 
 <task name="lighthouse_audit" type="auto">
@@ -174,10 +174,10 @@ curl -I https://your-app.vercel.app/weddings
 - Lighthouse Accessibility ≥ 85 on all three pages
 
 **Done when:**
-- [ ] Lighthouse scores documented
-- [ ] Performance ≥ 80 on all key pages
-- [ ] Accessibility ≥ 85 on all key pages
-- [ ] CLS and LCP within Core Web Vitals thresholds
+- [x] Lighthouse scores documented
+- [x] Performance ≥ 80 on all key pages
+- [x] Accessibility ≥ 85 on all key pages
+- [x] CLS and LCP within Core Web Vitals thresholds
 </task>
 
 <task name="production_smoke_test" type="checkpoint:human-verify">
@@ -222,12 +222,12 @@ If any checks fail, note the specific failure and fix before marking complete.
 ## Success Criteria
 
 At plan completion:
-- [ ] `npm run build` passes with zero errors locally
-- [ ] `vercel.json` in place with SPA rewrite
-- [ ] Both `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` set in Vercel Production env
-- [ ] Live Vercel URL loads and all routes accessible (no 404s)
-- [ ] Lighthouse Performance ≥ 80, Accessibility ≥ 85
-- [ ] Full end-to-end smoke test passes on the live URL
+- [x] `npm run build` passes with zero errors locally
+- [x] `vercel.json` in place with SPA rewrite
+- [x] Both `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` set in Vercel Production env
+- [x] Live Vercel URL loads and all routes accessible (no 404s)
+- [x] Lighthouse Performance ≥ 80, Accessibility ≥ 85
+- [x] Full end-to-end smoke test passes on the live URL
 
 ## Commit Message Template
 

@@ -7,8 +7,8 @@ A comprehensive quality sweep across the entire app: mobile responsiveness at 37
 ## Requirements Addressed
 
 - (Launch polish — not a named HOST requirement but a Phase 4 exit condition per ROADMAP.md)
-- [ ] **Phase 4 Success Criterion 5**: Entire app usable from mobile browser at 375px
-- [ ] **Phase 4 Success Criterion 4**: Dashboard summary counts accurate and update on change
+- [x] **Phase 4 Success Criterion 5**: Entire app usable from mobile browser at 375px
+- [x] **Phase 4 Success Criterion 4**: Dashboard summary counts accurate and update on change
 
 ## Context Files
 
@@ -68,11 +68,11 @@ npm run dev
 ```
 
 **Done when:**
-- [ ] No horizontal overflow on any page at 375px
-- [ ] Touch targets ≥ 44px on all buttons
-- [ ] RSVP modal slides up as bottom sheet on mobile
-- [ ] All grids correctly collapse to single/double column
-- [ ] Tabs horizontally scrollable on mobile
+- [x] No horizontal overflow on any page at 375px
+- [x] Touch targets ≥ 44px on all buttons
+- [x] RSVP modal slides up as bottom sheet on mobile
+- [x] All grids correctly collapse to single/double column
+- [x] Tabs horizontally scrollable on mobile
 </task>
 
 <task name="accessibility_audit" type="auto">
@@ -125,11 +125,11 @@ npm run dev
 ```
 
 **Done when:**
-- [ ] All buttons have visible focus ring when tabbed to
-- [ ] Modals trap focus and close on Escape
-- [ ] ARIA roles on tabs, badges, skeletons
-- [ ] Reduced motion respected in all animation components
-- [ ] Images have alt text
+- [x] All buttons have visible focus ring when tabbed to
+- [x] Modals trap focus and close on Escape
+- [x] ARIA roles on tabs, badges, skeletons
+- [x] Reduced motion respected in all animation components
+- [x] Images have alt text
 </task>
 
 <task name="lenis_gsap_audit" type="auto">
@@ -191,10 +191,10 @@ npm run dev
 ```
 
 **Done when:**
-- [ ] Lenis active only on `/`, `/weddings`, `/weddings/:slug`
-- [ ] Lenis + ScrollTrigger cleaned up on route change (no phantom behaviour)
-- [ ] `data-lenis-prevent` on horizontal scroll containers
-- [ ] GSAP pins execute and clean up correctly
+- [x] Lenis active only on `/`, `/weddings`, `/weddings/:slug`
+- [x] Lenis + ScrollTrigger cleaned up on route change (no phantom behaviour)
+- [x] `data-lenis-prevent` on horizontal scroll containers
+- [x] GSAP pins execute and clean up correctly
 </task>
 
 <task name="error_and_loading_states" type="auto">
@@ -244,24 +244,24 @@ npm run dev
 ```
 
 **Done when:**
-- [ ] ErrorBoundary wraps the app
-- [ ] All data-fetching hooks expose an `error` state
-- [ ] Error cards appear where data fails to load
-- [ ] All mutation buttons disabled + show spinner in flight
-- [ ] All empty states present with helpful copy
+- [x] ErrorBoundary wraps the app
+- [x] All data-fetching hooks expose an `error` state
+- [x] Error cards appear where data fails to load
+- [x] All mutation buttons disabled + show spinner in flight
+- [x] All empty states present with helpful copy
 </task>
 
 ## Success Criteria
 
 At plan completion:
-- [ ] App is fully usable at 375px viewport width (no overflow, no broken layouts)
-- [ ] All interactive elements keyboard-focusable with visible focus ring
-- [ ] Modals trap focus and close on Escape
-- [ ] Reduced motion preference respected
-- [ ] Lenis and GSAP are correctly scoped to immersive pages only
-- [ ] Error states and loading spinners present throughout
-- [ ] Empty states with helpful messaging on all lists
-- [ ] `npm run dev` — no console errors or warnings
+- [x] App is fully usable at 375px viewport width (no overflow, no broken layouts)
+- [x] All interactive elements keyboard-focusable with visible focus ring
+- [x] Modals trap focus and close on Escape
+- [x] Reduced motion preference respected
+- [x] Lenis and GSAP are correctly scoped to immersive pages only
+- [x] Error states and loading spinners present throughout
+- [x] Empty states with helpful messaging on all lists
+- [x] `npm run dev` — no console errors or warnings
 
 ## Commit Message Template
 
